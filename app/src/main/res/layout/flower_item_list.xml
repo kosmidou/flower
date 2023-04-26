@@ -37,7 +37,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Rose"
                 android:textColor="#000"
                 android:textSize="25dp"
                 android:textStyle="bold" />
@@ -46,14 +45,12 @@
                 android:id="@+id/rose_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="26/4/2023" />
+                android:layout_margin="10dp" />
 
         </LinearLayout>
 
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 
 </LinearLayout>

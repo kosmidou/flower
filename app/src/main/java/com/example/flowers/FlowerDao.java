@@ -11,17 +11,19 @@ import java.util.List;
 
 @Dao
 public interface FlowerDao {
-  @Insert
-  void insertFlower(Flower flower);
+    @Insert
+    void insertFlower(Flower flower);
 
-  @Query("DELETE FROM flower")
-  void deleteAll();
+    @Query("DELETE FROM flower")
+    void deleteAll();
 
-  @Delete
-  void delete(Flower flower);
-  @Query("SELECT * from flower ORDER BY flower ASC")
-  LiveData<List<Flower>> getAllItems();
+    @Delete
+    void delete(Flower flower);
 
-  @Update
+    @Update
     void update(Flower flower);
+
+    @Query("SELECT * from flower ORDER BY flower ASC")
+    LiveData<List<Flower>> getAllItems();
+
 }

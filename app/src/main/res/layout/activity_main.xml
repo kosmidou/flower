@@ -13,4 +13,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
         tools:listitem="@layout/flower_item_list"/>
+    <Button
+        android:id="@+id/addFlowerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Flower"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="20dp"/>
 </LinearLayout>

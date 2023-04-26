@@ -12,6 +12,14 @@
         android:theme="@style/Theme.Flowers"
         tools:targetApi="31">
         <activity
+            android:label="Second Activity"
+            android:name=".SecondActivity"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+               android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.flowers.MainActivity"/>
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

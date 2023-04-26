@@ -17,21 +17,21 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     private LayoutInflater inflater;
     private List<Flower> flowers;
 
-    FlowerAdapter(Context context){
-      inflater=LayoutInflater.from(context);
+    FlowerAdapter(Context context) {
+        inflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView=inflater.inflate(R.layout.flower_item_list,parent,false);
+        View itemView = inflater.inflate(R.layout.flower_item_list, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull FlowerAdapter.ViewHolder holder, int position) {
-        if(flowers!=null){
-            Flower currentFlower=flowers.get(position);
+        if (flowers != null) {
+            Flower currentFlower = flowers.get(position);
             holder.flower_name.setText(currentFlower.getFlowerName());
             holder.flower_date.setText(currentFlower.getDate());
         }
@@ -46,27 +46,28 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        if(flowers!=null){
+        if (flowers != null) {
             return flowers.size();
-        }else{
+        } else {
             return 0;
         }
     }
 
-    void setFlowers(List<Flower> nflowers){
-        flowers=nflowers;
+    void setFlowers(List<Flower> nflowers) {
+        flowers = nflowers;
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView flower_image;
         TextView flower_name;
         TextView flower_date;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            flower_image=itemView.findViewById(R.id.rose_image);
-            flower_name=itemView.findViewById(R.id.rose_name);
-            flower_date=itemView.findViewById(R.id.rose_date);
+            flower_image = itemView.findViewById(R.id.rose_image);
+            flower_name = itemView.findViewById(R.id.rose_name);
+            flower_date = itemView.findViewById(R.id.rose_date);
 
         }
     }

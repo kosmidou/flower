@@ -1,4 +1,5 @@
 package com.example.flowers;
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -9,16 +10,17 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Flower.class},version = 1,exportSchema = false)
-public abstract class  FlowerRoomDatabase extends RoomDatabase {
+@Database(entities = {Flower.class}, version = 1, exportSchema = false)
+public abstract class FlowerRoomDatabase extends RoomDatabase {
     public abstract FlowerDao flowerDao();
+
     private static FlowerRoomDatabase INSTANCE;
 
-    public static FlowerRoomDatabase getDatabase(final Context context){
-        if(INSTANCE==null){
-            synchronized (FlowerRoomDatabase.class){
-                if(INSTANCE==null){
-                    INSTANCE= Room.databaseBuilder(context.getApplicationContext(),FlowerRoomDatabase.class,"flower_database")
+    public static FlowerRoomDatabase getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (FlowerRoomDatabase.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), FlowerRoomDatabase.class, "flower_database")
                             .fallbackToDestructiveMigration()
                             .addCallback(roomDatabaseCallback)
                             .build();
@@ -28,7 +30,7 @@ public abstract class  FlowerRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static RoomDatabase.Callback roomDatabaseCallback = new RoomDatabase.Callback(){
+    private static RoomDatabase.Callback roomDatabaseCallback = new RoomDatabase.Callback() {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
@@ -36,20 +38,21 @@ public abstract class  FlowerRoomDatabase extends RoomDatabase {
         }
     };
 
-    private static class PopulateDbAsync extends AsyncTask<Void,Void,Void>{
+    private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final FlowerDao dao;
-        String[] flowers={"rose","margarita"};
-        String[] dates={"26/4/2023",null};
-        private PopulateDbAsync(FlowerRoomDatabase fd){dao=fd.flowerDao();}
+        String[] flowers = {"rose","margarita"};
+        String[] dates = {"2/4/2023",null};
+
+        private PopulateDbAsync(FlowerRoomDatabase fd) {
+            dao = fd.flowerDao();
+        }
 
         @Override
         protected Void doInBackground(final Void... voids) {
             dao.deleteAll();
-            for(int i=0;i<=flowers.length-1;i++){
-                Flower flower=new Flower(flowers[i],dates[i]);
+            for (int i = 0; i <= flowers.length - 1; i++) {
+                Flower flower = new Flower(flowers[i], dates[i]);
                 dao.insertFlower(flower);
-                Log.d("MainActivity",String.valueOf(i));
-                Log.d("MainActivity",String.valueOf(flower.getId()));
             }
             return null;
         }
