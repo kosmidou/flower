@@ -1,0 +1,82 @@
+package com.example.flowers;
+
+import android.app.Application;
+import android.os.AsyncTask;
+
+import androidx.lifecycle.LiveData;
+
+import java.util.List;
+
+public class FlowerRepository {
+
+    private FlowerDao flowerDao;
+    private LiveData<List<Flower>> allItems;
+
+    FlowerRepository(Application application) {
+        FlowerRoomDatabase fd = FlowerRoomDatabase.getDatabase(application);
+        flowerDao = fd.flowerDao();
+        allItems = flowerDao.getAllItems();
+    }
+
+    LiveData<List<Flower>> getAllItems() {
+        return allItems;
+    }
+
+    public void insertFlower(Flower flower) {
+        new insertAsyncTask(flowerDao).execute(flower);
+    }
+
+    public void deleteFlower(Flower flower) {
+        new deleteAsyncTask(flowerDao).execute(flower);
+    }
+
+    public void updateFlower(Flower flower) {
+        new updateAsyncTask(flowerDao).execute(flower);
+    }
+
+
+    private static class insertAsyncTask extends AsyncTask<Flower, Void, Void> {
+        private FlowerDao flowerDao;
+
+        insertAsyncTask(FlowerDao fdao) {
+            flowerDao = fdao;
+        }
+
+        @Override
+        protected Void doInBackground(final Flower... flowers) {
+            flowerDao.insertFlower(flowers[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<Flower, Void, Void> {
+
+        private FlowerDao flowerDao;
+
+        deleteAsyncTask(FlowerDao fdao) {
+            flowerDao = fdao;
+        }
+
+        @Override
+        protected Void doInBackground(final Flower... flowers) {
+            flowerDao.delete(flowers[0]);
+            return null;
+        }
+    }
+
+    private static class updateAsyncTask extends AsyncTask<Flower, Void, Void> {
+        private FlowerDao flowerDao;
+
+        updateAsyncTask(FlowerDao fdao) {
+            flowerDao = fdao;
+        }
+
+        @Override
+        protected Void doInBackground(final Flower... flowers) {
+            flowerDao.update(flowers[0]);
+            return null;
+        }
+    }
+
+
+}
