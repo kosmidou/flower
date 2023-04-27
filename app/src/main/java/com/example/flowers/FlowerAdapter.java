@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
 
     private LayoutInflater inflater;
     private List<Flower> flowers;
+    private static Listener listener;
 
     FlowerAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -36,12 +38,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
             holder.flower_date.setText(currentFlower.getDate());
         }
 
-        holder.flower_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
     }
 
     @Override
@@ -58,17 +55,39 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public Flower getFlowerAtPosition(int position ){
+        return flowers.get(position);
+    }
+
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView flower_image;
         TextView flower_name;
         TextView flower_date;
+        CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            cardView=itemView.findViewById(R.id.cardView);
             flower_image = itemView.findViewById(R.id.rose_image);
             flower_name = itemView.findViewById(R.id.rose_name);
             flower_date = itemView.findViewById(R.id.rose_date);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.itemClicked(view,getAdapterPosition());
+                }
+            });
         }
+    }
+
+    public void setOnItemListener(Listener listener){
+
+        FlowerAdapter.listener=listener;
+    }
+    public interface Listener{
+        void itemClicked(View v , int position );
     }
 }

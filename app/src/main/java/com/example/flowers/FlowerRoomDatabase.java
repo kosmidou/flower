@@ -10,6 +10,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import java.util.List;
+
 @Database(entities = {Flower.class}, version = 1, exportSchema = false)
 public abstract class FlowerRoomDatabase extends RoomDatabase {
     public abstract FlowerDao flowerDao();
@@ -40,6 +42,7 @@ public abstract class FlowerRoomDatabase extends RoomDatabase {
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final FlowerDao dao;
+
         String[] flowers = {"rose","margarita"};
         String[] dates = {"2/4/2023",null};
 
@@ -50,6 +53,7 @@ public abstract class FlowerRoomDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(final Void... voids) {
             dao.deleteAll();
+
             for (int i = 0; i <= flowers.length - 1; i++) {
                 Flower flower = new Flower(flowers[i], dates[i]);
                 dao.insertFlower(flower);
