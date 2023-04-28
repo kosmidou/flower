@@ -44,7 +44,7 @@ public abstract class FlowerRoomDatabase extends RoomDatabase {
         private final FlowerDao dao;
 
         String[] flowers = {"rose","margarita"};
-        String[] dates = {"2/4/2023",null};
+        String [] dates = {"2/3/2023",null};
 
         private PopulateDbAsync(FlowerRoomDatabase fd) {
             dao = fd.flowerDao();

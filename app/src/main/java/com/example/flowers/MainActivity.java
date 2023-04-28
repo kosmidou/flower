@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_WORD_ACTIVITY_REQUEST_CODE = 2;
     public static final String EXTRA_DATA_UPDATE_NAME="extra_name_to_be_updated";
-    public static final String EXTRA_DATA_UPDATE_DATE="extra_data_date";
+    public static final String EXTRA_DATA_UPDATE_DATE="extra_date_to_be_updated";
     public static final String EXTRA_DATA_ID="extra_data_id";
 
     private FlowerViewModel flowerViewModel;
@@ -74,14 +77,20 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode==NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode==RESULT_OK){
             String fName=data.getStringExtra(SecondActivity.EXTRA_REPLY_NAME);
             String fDate=data.getStringExtra(SecondActivity.EXTRA_REPLY_DATE);
+
             Flower new_flower=new Flower(fName,fDate);
             flowerViewModel.insert(new_flower);
         }else if (requestCode==UPDATE_WORD_ACTIVITY_REQUEST_CODE && resultCode==RESULT_OK){
             String data_name=data.getStringExtra(SecondActivity.EXTRA_REPLY_NAME);
             String data_date=data.getStringExtra(SecondActivity.EXTRA_REPLY_DATE);
             int id = data.getIntExtra(SecondActivity.EXTRA_REPLY_ID,-1);
+            SimpleDateFormat f = new SimpleDateFormat("dd-MMM-yyyy");
+
+
             if(id!=-1 && data_name!=null){
-               flowerViewModel.update(new Flower(id,data_name,data_date));}
+                Toast.makeText(MainActivity.this,data_date,Toast.LENGTH_LONG).show();
+                Flower new_flower=new Flower(data_name,data_date);
+                flowerViewModel.update(new Flower(id,data_name,data_date));}
             else if(id!=-1 && data_date!=null){
                 Toast.makeText(this,"Unable to update,flower name is empty",Toast.LENGTH_LONG).show();
             }else{

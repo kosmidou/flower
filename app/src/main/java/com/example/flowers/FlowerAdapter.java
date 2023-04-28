@@ -35,7 +35,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
         if (flowers != null) {
             Flower currentFlower = flowers.get(position);
             holder.flower_name.setText(currentFlower.getFlowerName());
-            holder.flower_date.setText(currentFlower.getDate());
+            holder.flower_date.setText(String.valueOf(currentFlower.getDate()));
         }
 
 

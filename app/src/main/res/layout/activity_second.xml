@@ -19,7 +19,7 @@
         android:drawableLeft="@drawable/baseline_emergency_24"
         android:padding="10dp"/>
 
-    <EditText
+    <TextView
         android:id="@+id/date_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +29,7 @@
         android:drawableLeft="@drawable/baseline_calendar_month_24"
         android:padding="10dp"
         android:inputType="date"/>
+
 
     <Button
         android:id="@+id/save_button"
