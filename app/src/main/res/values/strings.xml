@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">Flowers</string>
+    <string name="app_name">Flower Name</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_flower">Add a new Flower</string>
+    <string name="date">Date..</string>
+    <string name="save">SAVE</string>
+    <string name="delete_all">"Delete "</string>
+    <string name="no_update">Unable to update, the field \"Flower Name\" is empty</string>
+    <string name="empty_data">Empty data , new flower didnt create</string>
 </resources>

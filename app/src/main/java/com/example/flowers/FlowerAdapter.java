@@ -37,8 +37,6 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
             holder.flower_name.setText(currentFlower.getFlowerName());
             holder.flower_date.setText(String.valueOf(currentFlower.getDate()));
         }
-
-
     }
 
     @Override
@@ -55,10 +53,9 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    public Flower getFlowerAtPosition(int position ){
+    public Flower getFlowerAtPosition(int position) {
         return flowers.get(position);
     }
-
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +66,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardView=itemView.findViewById(R.id.cardView);
+            cardView = itemView.findViewById(R.id.cardView);
             flower_image = itemView.findViewById(R.id.rose_image);
             flower_name = itemView.findViewById(R.id.rose_name);
             flower_date = itemView.findViewById(R.id.rose_date);
@@ -77,17 +74,18 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.itemClicked(view,getAdapterPosition());
+                    listener.itemClicked(view, getAdapterPosition());
                 }
             });
         }
     }
 
-    public void setOnItemListener(Listener listener){
+    public void setOnItemListener(Listener listener) {
 
-        FlowerAdapter.listener=listener;
+        FlowerAdapter.listener = listener;
     }
-    public interface Listener{
-        void itemClicked(View v , int position );
+
+    public interface Listener {
+        void itemClicked(View v, int position);
     }
 }

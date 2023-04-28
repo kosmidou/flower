@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Όνομα Λουλουδιού</string>
+    <string name="hello_blank_fragment">.</string>
+    <string name="add_flower">Πρόσθεσε νέο λουλούδι</string>
+    <string name="date">Ημερομηνία..</string>
+    <string name="save">Αποθήκευση</string>
+    <string name="delete_all">Διαγραφή</string>
+    <string name="no_update">Καμία ενημέρωση,το πεδίο "Όνομα Λουλουδιού" είναι κενό</string>
+    <string name="empty_data">Κενά δεδομένα,δεν δημιουργήθηκε νέο Λουλούδι</string>
+</resources>

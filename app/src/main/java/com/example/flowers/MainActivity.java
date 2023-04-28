@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,9 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         adapter.setOnItemListener(new FlowerAdapter.Listener() {
-
 
             @Override
             public void itemClicked(View v, int position) {
@@ -77,35 +77,52 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode==NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode==RESULT_OK){
             String fName=data.getStringExtra(SecondActivity.EXTRA_REPLY_NAME);
             String fDate=data.getStringExtra(SecondActivity.EXTRA_REPLY_DATE);
-
-            Flower new_flower=new Flower(fName,fDate);
+            Flower new_flower=new Flower(fName,stringToLong(fDate));
             flowerViewModel.insert(new_flower);
         }else if (requestCode==UPDATE_WORD_ACTIVITY_REQUEST_CODE && resultCode==RESULT_OK){
             String data_name=data.getStringExtra(SecondActivity.EXTRA_REPLY_NAME);
             String data_date=data.getStringExtra(SecondActivity.EXTRA_REPLY_DATE);
             int id = data.getIntExtra(SecondActivity.EXTRA_REPLY_ID,-1);
-            SimpleDateFormat f = new SimpleDateFormat("dd-MMM-yyyy");
-
+            long date_for_database=stringToLong(data_date);
 
             if(id!=-1 && data_name!=null){
                 Toast.makeText(MainActivity.this,data_date,Toast.LENGTH_LONG).show();
-                Flower new_flower=new Flower(data_name,data_date);
-                flowerViewModel.update(new Flower(id,data_name,data_date));}
+                Flower new_flower=new Flower(data_name,date_for_database);
+                flowerViewModel.update(new Flower(id,data_name,date_for_database));}
             else if(id!=-1 && data_date!=null){
-                Toast.makeText(this,"Unable to update,flower name is empty",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,R.string.no_update,Toast.LENGTH_LONG).show();
             }else{
-                flowerViewModel.delete(new Flower(id,data_name,data_date));
+                flowerViewModel.delete(new Flower(id,data_name,date_for_database));
             }
         }else{
-            Toast.makeText(this,"Empty data , not saved",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,R.string.empty_data,Toast.LENGTH_LONG).show();
         }
     }
 
     public void launchUpdate(Flower flower){
         Intent intent=new Intent(this,SecondActivity.class);
         intent.putExtra(EXTRA_DATA_UPDATE_NAME,flower.getFlowerName());
-        intent.putExtra(EXTRA_DATA_UPDATE_DATE,flower.getDate());
+        intent.putExtra(EXTRA_DATA_UPDATE_DATE,longToString(flower.getDate()));
         intent.putExtra(EXTRA_DATA_ID,flower.getId());
         startActivityForResult(intent,UPDATE_WORD_ACTIVITY_REQUEST_CODE);
+    }
+
+    public String longToString(long currentDate){
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strDate=dateFormat.format(currentDate);
+        return strDate;
+    }
+
+    public long stringToLong(String currentDate){
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long milliseconds=100;
+        try {
+            Date d = dateFormat.parse(currentDate);
+            milliseconds = d.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return milliseconds;
     }
 }

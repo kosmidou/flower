@@ -15,17 +15,17 @@ public class Flower {
     private String flowerName;
 
     @ColumnInfo(name = "date")
-    private String date;
+    private long date;
 
     @Ignore
-    public Flower(int id, @NonNull String flowerName, String date) {
+    public Flower(int id, @NonNull String flowerName, long date) {
         this.id = id;
         this.flowerName = flowerName;
         this.date = date;
     }
 
 
-    public Flower(@NonNull String flowerName, String date) {
+    public Flower(@NonNull String flowerName,long date) {
         this.flowerName = flowerName;
         this.date = date;
     }
@@ -38,7 +38,7 @@ public class Flower {
         return this.id;
     }
 
-    public String getDate() {
+    public long getDate() {
         return this.date;
     }
 
@@ -50,7 +50,7 @@ public class Flower {
         this.flowerName = flowerName;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 }

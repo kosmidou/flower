@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.List;
 
-@Database(entities = {Flower.class}, version = 1, exportSchema = false)
+@Database(entities = {Flower.class}, version = 2, exportSchema = false)
 public abstract class FlowerRoomDatabase extends RoomDatabase {
     public abstract FlowerDao flowerDao();
 
@@ -43,8 +43,8 @@ public abstract class FlowerRoomDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final FlowerDao dao;
 
-        String[] flowers = {"rose","margarita"};
-        String [] dates = {"2/3/2023",null};
+        String[] flowers = {};
+        long [] dates = {};
 
         private PopulateDbAsync(FlowerRoomDatabase fd) {
             dao = fd.flowerDao();
@@ -55,9 +55,9 @@ public abstract class FlowerRoomDatabase extends RoomDatabase {
             dao.deleteAll();
 
             for (int i = 0; i <= flowers.length - 1; i++) {
-                Flower flower = new Flower(flowers[i], dates[i]);
+                Flower flower = new Flower(flowers[i],dates[i] );
                 dao.insertFlower(flower);
-            }
+           }
             return null;
         }
     }

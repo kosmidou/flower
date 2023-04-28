@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:background="@color/purple_200"
-        android:hint="Date.."
+        android:hint="@string/date"
         android:drawableLeft="@drawable/baseline_calendar_month_24"
         android:padding="10dp"
         android:inputType="date"/>
@@ -35,7 +35,7 @@
         android:id="@+id/save_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SAVE"
+        android:text="@string/save"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="20dp"/>
@@ -45,7 +45,7 @@
         android:id="@+id/delete_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete All"
+        android:text="@string/delete_all"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
