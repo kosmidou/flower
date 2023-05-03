@@ -78,10 +78,12 @@ public class MainActivity extends AppCompatActivity {
 
             String data_name = data.getStringExtra(SecondActivity.EXTRA_REPLY_NAME);
             String data_date = data.getStringExtra(SecondActivity.EXTRA_REPLY_DATE);
-            if(data_date!=null){
-            flowerViewModel.insert(new Flower(data_name, stringToLong(data_date)));
-            }else{
-                flowerViewModel.insert(new Flower(data_name,0));
+
+            //if data field is null create a flower with date=0
+            if (data_date != null) {
+                flowerViewModel.insert(new Flower(data_name, stringToLong(data_date)));
+            } else {
+                flowerViewModel.insert(new Flower(data_name, 0));
             }
 
         } else if (requestCode == UPDATE_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -92,7 +94,12 @@ public class MainActivity extends AppCompatActivity {
 
             if (data_id != -1 && data_name != null) {
 
-                flowerViewModel.update(new Flower(data_id, data_name, stringToLong(data_date)));
+                //if data field is null update a flower with date=0
+                if (data_date != null) {
+                    flowerViewModel.update(new Flower(data_id, data_name, stringToLong(data_date)));
+                } else {
+                    flowerViewModel.update(new Flower(data_id, data_name, 0));
+                }
 
             } else if (data_id != -1 && data_date != null) {
 
@@ -103,14 +110,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void launchUpdate(Flower flower) {
+
         Intent intent = new Intent(this, SecondActivity.class);
-
-
         intent.putExtra(EXTRA_DATA_UPDATE_NAME, flower.getFlowerName());
-        if(flower.getDate()!=0){
-        intent.putExtra(EXTRA_DATA_UPDATE_DATE, longToString(flower.getDate()));
-        }else{
-            intent.putExtra(EXTRA_DATA_UPDATE_DATE,"");
+
+        //if date is 0 there is nothing to show in the date field,else give the date with string format
+        if (flower.getDate() != 0) {
+            intent.putExtra(EXTRA_DATA_UPDATE_DATE, longToString(flower.getDate()));
+        } else {
+            intent.putExtra(EXTRA_DATA_UPDATE_DATE, "");
         }
         intent.putExtra(EXTRA_DATA_ID, flower.getId());
         startActivityForResult(intent, UPDATE_WORD_ACTIVITY_REQUEST_CODE);
@@ -124,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
     public long stringToLong(String currentDate) {
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long milliseconds =-1;
+        long milliseconds = -1;
         try {
             Date d = dateFormat.parse(currentDate);
             milliseconds = d.getTime();

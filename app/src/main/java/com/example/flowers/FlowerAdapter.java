@@ -23,6 +23,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     private static Listener listener;
 
     FlowerAdapter(Context context) {
+
         inflater = LayoutInflater.from(context);
     }
 
@@ -38,8 +39,13 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
         if (flowers != null) {
             Flower currentFlower = flowers.get(position);
             holder.flower_name.setText(currentFlower.getFlowerName());
-            if(currentFlower.getDate()!=0)
+
+            //if data field is completed we set the data.If it is not completed we set an empty content
+            if(currentFlower.getDate()!=0){
               holder.flower_date.setText(String.valueOf(longToString(currentFlower.getDate())));
+            }else{
+                holder.flower_date.setText("");
+            }
         }
     }
 
