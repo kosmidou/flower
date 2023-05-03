@@ -43,21 +43,13 @@ public abstract class FlowerRoomDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final FlowerDao dao;
 
-        String[] flowers = {};
-        long [] dates = {};
-
         private PopulateDbAsync(FlowerRoomDatabase fd) {
+
             dao = fd.flowerDao();
         }
 
         @Override
         protected Void doInBackground(final Void... voids) {
-            dao.deleteAll();
-
-            for (int i = 0; i <= flowers.length - 1; i++) {
-                Flower flower = new Flower(flowers[i],dates[i] );
-                dao.insertFlower(flower);
-           }
             return null;
         }
     }

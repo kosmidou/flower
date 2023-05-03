@@ -1,5 +1,6 @@
 package com.example.flowers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder> {
@@ -35,7 +38,8 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
         if (flowers != null) {
             Flower currentFlower = flowers.get(position);
             holder.flower_name.setText(currentFlower.getFlowerName());
-            holder.flower_date.setText(String.valueOf(currentFlower.getDate()));
+            if(currentFlower.getDate()!=0)
+              holder.flower_date.setText(String.valueOf(longToString(currentFlower.getDate())));
         }
     }
 
@@ -48,12 +52,13 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
         }
     }
 
-    void setFlowers(List<Flower> nflowers) {
-        flowers = nflowers;
+    void setFlowers(List<Flower> flowers) {
+        this.flowers = flowers;
         notifyDataSetChanged();
     }
 
     public Flower getFlowerAtPosition(int position) {
+
         return flowers.get(position);
     }
 
@@ -87,5 +92,11 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
 
     public interface Listener {
         void itemClicked(View v, int position);
+    }
+
+    public String longToString(long currentDate) {
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strDate = dateFormat.format(currentDate);
+        return strDate;
     }
 }

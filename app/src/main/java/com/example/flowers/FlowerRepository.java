@@ -38,8 +38,8 @@ public class FlowerRepository {
     private static class insertAsyncTask extends AsyncTask<Flower, Void, Void> {
         private FlowerDao flowerDao;
 
-        insertAsyncTask(FlowerDao fdao) {
-            flowerDao = fdao;
+        insertAsyncTask(FlowerDao flowerDao) {
+            this.flowerDao = flowerDao;
         }
 
         @Override
@@ -53,8 +53,8 @@ public class FlowerRepository {
 
         private FlowerDao flowerDao;
 
-        deleteAsyncTask(FlowerDao fdao) {
-            flowerDao = fdao;
+        deleteAsyncTask(FlowerDao flowerDao) {
+            this.flowerDao = flowerDao;
         }
 
         @Override
@@ -67,8 +67,8 @@ public class FlowerRepository {
     private static class updateAsyncTask extends AsyncTask<Flower, Void, Void> {
         private FlowerDao flowerDao;
 
-        updateAsyncTask(FlowerDao fdao) {
-            flowerDao = fdao;
+        updateAsyncTask(FlowerDao flowerDao) {
+            this.flowerDao = flowerDao;
         }
 
         @Override
