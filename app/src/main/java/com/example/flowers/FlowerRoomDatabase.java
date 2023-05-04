@@ -12,13 +12,21 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.List;
 
+/**
+ * FlowerRoomDatabase includes code to create the Database
+ * After the app creates the database ,
+ * all interactions happen through FlowerViewModel
+ */
 @Database(entities = {Flower.class}, version = 2, exportSchema = false)
 public abstract class FlowerRoomDatabase extends RoomDatabase {
+
     public abstract FlowerDao flowerDao();
 
     private static FlowerRoomDatabase INSTANCE;
 
+    //Database building
     public static FlowerRoomDatabase getDatabase(final Context context) {
+
         if (INSTANCE == null) {
             synchronized (FlowerRoomDatabase.class) {
                 if (INSTANCE == null) {
@@ -32,10 +40,14 @@ public abstract class FlowerRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    /**
+     * Populate the database in background
+     */
     private static RoomDatabase.Callback roomDatabaseCallback = new RoomDatabase.Callback() {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
+
             new PopulateDbAsync(INSTANCE).execute();
         }
     };

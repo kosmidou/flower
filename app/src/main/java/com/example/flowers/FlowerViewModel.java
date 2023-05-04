@@ -8,11 +8,16 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+/**
+ * FlowerViewModel helps the interaction between
+ * UI and data layer of the app
+ */
 public class FlowerViewModel extends AndroidViewModel {
     private FlowerRepository flowerRepository;
     private LiveData<List<Flower>> allItems;
 
     public FlowerViewModel(@NonNull Application application) {
+
         super(application);
         flowerRepository = new FlowerRepository(application);
         allItems = flowerRepository.getAllItems();

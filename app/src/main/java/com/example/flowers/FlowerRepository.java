@@ -7,12 +7,18 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+/**
+ * This class holds the implementation code for the methods that interact with the database
+ * For inserting,updating,deleting flowers or running queries you have to run the
+ * appropriate database methods in background
+ */
 public class FlowerRepository {
 
     private FlowerDao flowerDao;
     private LiveData<List<Flower>> allItems;
 
     FlowerRepository(Application application) {
+
         FlowerRoomDatabase fd = FlowerRoomDatabase.getDatabase(application);
         flowerDao = fd.flowerDao();
         allItems = flowerDao.getAllItems();
@@ -34,7 +40,6 @@ public class FlowerRepository {
         new updateAsyncTask(flowerDao).execute(flower);
     }
 
-
     private static class insertAsyncTask extends AsyncTask<Flower, Void, Void> {
         private FlowerDao flowerDao;
 
@@ -44,6 +49,7 @@ public class FlowerRepository {
 
         @Override
         protected Void doInBackground(final Flower... flowers) {
+
             flowerDao.insertFlower(flowers[0]);
             return null;
         }
@@ -59,6 +65,7 @@ public class FlowerRepository {
 
         @Override
         protected Void doInBackground(final Flower... flowers) {
+
             flowerDao.delete(flowers[0]);
             return null;
         }
@@ -73,6 +80,7 @@ public class FlowerRepository {
 
         @Override
         protected Void doInBackground(final Flower... flowers) {
+
             flowerDao.update(flowers[0]);
             return null;
         }

@@ -9,14 +9,26 @@ import androidx.room.Update;
 
 import java.util.List;
 
+/**
+ * Data Access Object (DAO) for a flower
+ * Each method performs a database operation ,
+ * such as inserting,deleting and updating a flower
+ * Running DB queries
+ */
 @Dao
 public interface FlowerDao {
     @Insert
     void insertFlower(Flower flower);
 
+    /**
+     * Delete all items from the table
+     */
     @Query("DELETE FROM flower")
     void deleteAll();
 
+    /**
+     * @param flower Delete specific flower from the table
+     */
     @Delete
     void delete(Flower flower);
 

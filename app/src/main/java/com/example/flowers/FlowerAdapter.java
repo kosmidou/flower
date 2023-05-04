@@ -16,6 +16,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+
+/**
+ * Adapter for the RecyclerView that displays a list of flowers
+ */
 public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
@@ -41,9 +45,9 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
             holder.flower_name.setText(currentFlower.getFlowerName());
 
             //if data field is completed we set the data.If it is not completed we set an empty content
-            if(currentFlower.getDate()!=0){
-              holder.flower_date.setText(String.valueOf(currentFlower.longToString(currentFlower.getDate())));
-            }else{
+            if (currentFlower.getDate() != 0) {
+                holder.flower_date.setText(String.valueOf(currentFlower.longToString(currentFlower.getDate())));
+            } else {
                 holder.flower_date.setText("");
             }
         }
@@ -63,6 +67,13 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    /**
+     * Gets the flower at the given position
+     * This method is useful for identifying which flower is clicked
+     *
+     * @param position The position of the flower in the RecyclerView
+     * @return The flower at the given position
+     */
     public Flower getFlowerAtPosition(int position) {
 
         return flowers.get(position);
