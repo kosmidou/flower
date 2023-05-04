@@ -1,6 +1,5 @@
 package com.example.flowers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,7 +21,7 @@ import java.util.List;
 public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
-    private List<Flower> flowers;
+    private List<Flower> flowers = new ArrayList<>();
     private static Listener listener;
 
     FlowerAdapter(Context context) {
@@ -46,7 +44,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
 
             //if data field is completed we set the data.If it is not completed we set an empty content
             if (currentFlower.getDate() != 0) {
-                holder.flower_date.setText(String.valueOf(currentFlower.longToString(currentFlower.getDate())));
+                holder.flower_date.setText(String.valueOf(currentFlower.getDateFromLong(currentFlower.getDate())));
             } else {
                 holder.flower_date.setText("");
             }

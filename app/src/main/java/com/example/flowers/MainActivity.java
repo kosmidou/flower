@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (requestCode == UPDATE_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             Flower flower = (Flower) data.getSerializableExtra(SecondActivity.EXTRA_REPLY);
             flowerViewModel.update(flower);
-        } else if (requestCode == RESULT_CANCELED) {
+        } else if (resultCode == RESULT_CANCELED) {
             Toast.makeText(this, R.string.no_update, Toast.LENGTH_LONG).show();
         }
     }

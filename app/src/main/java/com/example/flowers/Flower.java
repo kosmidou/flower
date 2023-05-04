@@ -1,7 +1,7 @@
 package com.example.flowers;
 
 import android.annotation.SuppressLint;
-import android.os.Parcelable;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -32,17 +32,13 @@ public class Flower implements Serializable {
 
     @Ignore
     public Flower(int id, @NonNull String flowerName, long date) {
-
         this.id = id;
         this.flowerName = flowerName;
         this.date = date;
-
     }
 
-    public Flower(@NonNull String flowerName, long date) {
-
+    public Flower(@NonNull String flowerName) {
         this.flowerName = flowerName;
-        this.date = date;
     }
 
     public String getFlowerName() {
@@ -65,22 +61,35 @@ public class Flower implements Serializable {
         this.id = id;
     }
 
-    public String longToString(long currentDate) {
-
+    public String getDateFromLong(long currentDate) {
         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String strDate = dateFormat.format(currentDate);
         return strDate;
     }
 
-    public void setFlowerName(String flowerName) {
-
+    public Flower setFlowerName(String flowerName) {
         this.flowerName = flowerName;
-
+        return this;
     }
 
     public void setDate(long date) {
-
         this.date = date;
+    }
 
+    public Flower setDateFromString(@NonNull String currentDate) {
+        if (TextUtils.isEmpty(currentDate)) {
+            this.date = 0;
+            return this;
+        }
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date parsedDate = dateFormat.parse(currentDate);
+            this.date = parsedDate != null ? parsedDate.getTime() : 0;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return this;
     }
 }

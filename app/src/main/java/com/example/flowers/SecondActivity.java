@@ -1,24 +1,21 @@
 package com.example.flowers;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,7 +65,7 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
 
                 //If we don't have date let the date's textView empty
                 if (fl_date != 0)
-                    date_view.setText(flower_extra.longToString(fl_date));
+                    date_view.setText(flower_extra.getDateFromLong(fl_date));
                 date_view.requestFocus();
             }
         }
@@ -78,7 +75,6 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
 
             @Override
             public void onClick(View view) {
-
                 DialogFragment datePicker = new DatePickerFragment();
                 datePicker.show(getSupportFragmentManager(), "date picker");
             }
@@ -89,7 +85,6 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
 
             @Override
             public void onClick(View view) {
-
                 Intent replyIntent = new Intent();
                 String data_name = flower_extra.getFlowerName();
                 long data_date = flower_extra.getDate();
@@ -106,34 +101,28 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
 
             @Override
             public void onClick(View view) {
-
                 Intent replyIntent = new Intent();
-                Flower flower = null;
 
                 //if the name field is empty
                 if (TextUtils.isEmpty(flower_name_view.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
-                } else {
-                    String data_name = flower_name_view.getText().toString();
-                    long data_date = 0;
-                    if (TextUtils.isEmpty(date_view.getText())) {
-                        data_date = 0;
-                    } else {
-                        data_date = stringToLong(date_view.getText().toString());
-                    }
-
-                    //  If we have non empty flower_extra, it means that we update an existing flower
-                    if (flower_extra != null) {
-                        int id = flower_extra.getId();
-                        if (id != -1) {
-                            flower = new Flower(id, data_name, data_date);
-                        }
-                    } else {
-                        flower = new Flower(data_name, data_date);
-                    }
-                    replyIntent.putExtra(EXTRA_REPLY, (Serializable) flower);
-                    setResult(RESULT_OK, replyIntent);
+                    finish();
                 }
+
+                String data_name = flower_name_view.getText().toString();
+                String data_date = date_view.getText().toString();
+                Flower flower = null;
+
+                //  If we have non empty flower_extra, it means that we update an existing flower
+                if (flower_extra == null) {
+                    flower = new Flower(data_name).setDateFromString(data_date);
+                } else {
+                    flower = flower_extra.setFlowerName(data_name)
+                            .setDateFromString(data_date);
+                }
+
+                replyIntent.putExtra(EXTRA_REPLY, flower);
+                setResult(RESULT_OK, replyIntent);
                 finish();
             }
         });
@@ -148,22 +137,9 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         long currentDate = c.getTimeInMillis();
 
-        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String strDate = dateFormat.format(currentDate);
         TextView dateTextView = findViewById(R.id.date_id);
         dateTextView.setText(String.valueOf(strDate));
-    }
-
-    public long stringToLong(String currentDate) {
-
-        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long milliseconds = 100;
-        try {
-            Date d = dateFormat.parse(currentDate);
-            milliseconds = d.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return milliseconds;
     }
 }
