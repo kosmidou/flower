@@ -1,13 +1,17 @@
 package com.example.flowers;
 
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "flower")
-public class Flower {
+public class Flower implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     @NonNull

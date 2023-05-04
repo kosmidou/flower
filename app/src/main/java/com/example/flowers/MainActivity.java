@@ -25,9 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_WORD_ACTIVITY_REQUEST_CODE = 2;
-    public static final String EXTRA_DATA_UPDATE_NAME = "extra_name_to_be_updated";
-    public static final String EXTRA_DATA_UPDATE_DATE = "extra_date_to_be_updated";
-    public static final String EXTRA_DATA_ID = "extra_data_id";
+    public static final String EXTRA_DATA = "extra_data";
 
     private FlowerViewModel flowerViewModel;
     private Button addFlower;
@@ -75,52 +73,22 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-
-            String data_name = data.getStringExtra(SecondActivity.EXTRA_REPLY_NAME);
-            String data_date = data.getStringExtra(SecondActivity.EXTRA_REPLY_DATE);
-
-            //if data field is null create a flower with date=0
-            if (data_date != null) {
-                flowerViewModel.insert(new Flower(data_name, stringToLong(data_date)));
-            } else {
-                flowerViewModel.insert(new Flower(data_name, 0));
-            }
+            Flower flower= (Flower) data.getSerializableExtra(SecondActivity.EXTRA_REPLY);
+            flowerViewModel.insert(flower);
 
         } else if (requestCode == UPDATE_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-
-            String data_name = data.getStringExtra(SecondActivity.EXTRA_REPLY_NAME);
-            String data_date = data.getStringExtra(SecondActivity.EXTRA_REPLY_DATE);
-            int data_id = data.getIntExtra(SecondActivity.EXTRA_REPLY_ID, -1);
-
-            if (data_id != -1 && data_name != null) {
-
-                //if data field is null update a flower with date=0
-                if (data_date != null) {
-                    flowerViewModel.update(new Flower(data_id, data_name, stringToLong(data_date)));
-                } else {
-                    flowerViewModel.update(new Flower(data_id, data_name, 0));
-                }
-
-            } else if (data_id != -1 && data_date != null) {
-
-                Toast.makeText(this, R.string.no_update, Toast.LENGTH_LONG).show();
-
+            Flower flower= (Flower) data.getSerializableExtra(SecondActivity.EXTRA_REPLY);
+            flowerViewModel.update(flower);
+        } else if (requestCode==RESULT_CANCELED) {
+            Toast.makeText(this, R.string.no_update, Toast.LENGTH_LONG).show();
             }
         }
-    }
+
 
     public void launchUpdate(Flower flower) {
 
         Intent intent = new Intent(this, SecondActivity.class);
-        intent.putExtra(EXTRA_DATA_UPDATE_NAME, flower.getFlowerName());
-
-        //if date is 0 there is nothing to show in the date field,else give the date with string format
-        if (flower.getDate() != 0) {
-            intent.putExtra(EXTRA_DATA_UPDATE_DATE, longToString(flower.getDate()));
-        } else {
-            intent.putExtra(EXTRA_DATA_UPDATE_DATE, "");
-        }
-        intent.putExtra(EXTRA_DATA_ID, flower.getId());
+        intent.putExtra(EXTRA_DATA,flower);
         startActivityForResult(intent, UPDATE_WORD_ACTIVITY_REQUEST_CODE);
     }
 
@@ -139,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return milliseconds;
     }
 }
