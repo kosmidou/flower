@@ -1,5 +1,6 @@
 package com.example.flowers;
 
+import android.annotation.SuppressLint;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,10 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity(tableName = "flower")
 public class Flower implements Serializable {
@@ -48,6 +53,12 @@ public class Flower implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String longToString(long currentDate){
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strDate = dateFormat.format(currentDate);
+        return strDate;
     }
 
     public void setFlowerName(String flowerName) {

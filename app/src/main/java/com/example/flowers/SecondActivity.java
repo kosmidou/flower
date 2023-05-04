@@ -59,7 +59,7 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
                 flower_name_view.setSelection(fl_name.length());
                 flower_name_view.requestFocus();
                 if (fl_date != 0)
-                    date_view.setText(longToString(fl_date));
+                    date_view.setText(flower_extra.longToString(fl_date));
                 date_view.requestFocus();
             }
         }
@@ -149,12 +149,4 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
 
         return milliseconds;
     }
-
-    public String longToString(long currentDate) {
-        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strDate = dateFormat.format(currentDate);
-        return strDate;
-    }
-
-
 }

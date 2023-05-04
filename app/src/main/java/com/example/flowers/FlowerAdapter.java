@@ -42,7 +42,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
 
             //if data field is completed we set the data.If it is not completed we set an empty content
             if(currentFlower.getDate()!=0){
-              holder.flower_date.setText(String.valueOf(longToString(currentFlower.getDate())));
+              holder.flower_date.setText(String.valueOf(currentFlower.longToString(currentFlower.getDate())));
             }else{
                 holder.flower_date.setText("");
             }
@@ -100,9 +100,4 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
         void itemClicked(View v, int position);
     }
 
-    public String longToString(long currentDate) {
-        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strDate = dateFormat.format(currentDate);
-        return strDate;
-    }
 }
