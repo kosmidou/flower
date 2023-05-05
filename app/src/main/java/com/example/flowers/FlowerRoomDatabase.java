@@ -2,31 +2,25 @@ package com.example.flowers;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import java.util.List;
 
 /**
  * FlowerRoomDatabase includes code to create the Database
  * After the app creates the database ,
  * all interactions happen through FlowerViewModel
  */
-@Database(entities = {Flower.class}, version = 2, exportSchema = false)
+@Database(entities = {Flower.class}, version = 3, exportSchema = false)
 public abstract class FlowerRoomDatabase extends RoomDatabase {
-
     public abstract FlowerDao flowerDao();
-
     private static FlowerRoomDatabase INSTANCE;
 
     //Database building
     public static FlowerRoomDatabase getDatabase(final Context context) {
-
         if (INSTANCE == null) {
             synchronized (FlowerRoomDatabase.class) {
                 if (INSTANCE == null) {
@@ -43,7 +37,7 @@ public abstract class FlowerRoomDatabase extends RoomDatabase {
     /**
      * Populate the database in background
      */
-    private static RoomDatabase.Callback roomDatabaseCallback = new RoomDatabase.Callback() {
+    private static final RoomDatabase.Callback roomDatabaseCallback = new RoomDatabase.Callback() {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
@@ -53,13 +47,10 @@ public abstract class FlowerRoomDatabase extends RoomDatabase {
     };
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
-        private final FlowerDao dao;
-
         private PopulateDbAsync(FlowerRoomDatabase fd) {
 
-            dao = fd.flowerDao();
+           fd.flowerDao();
         }
-
         @Override
         protected Void doInBackground(final Void... voids) {
             return null;

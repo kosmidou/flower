@@ -19,13 +19,11 @@ import java.util.List;
  * Adapter for the RecyclerView that displays a list of flowers
  */
 public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder> {
-
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
     private List<Flower> flowers = new ArrayList<>();
     private static Listener listener;
 
     FlowerAdapter(Context context) {
-
         inflater = LayoutInflater.from(context);
     }
 
@@ -40,13 +38,13 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     public void onBindViewHolder(@NonNull FlowerAdapter.ViewHolder holder, int position) {
         if (flowers != null) {
             Flower currentFlower = flowers.get(position);
-            holder.flower_name.setText(currentFlower.getFlowerName());
+            holder.flowerName.setText(currentFlower.getFlowerName());
 
             //if data field is completed we set the data.If it is not completed we set an empty content
-            if (currentFlower.getDate() != 0) {
-                holder.flower_date.setText(String.valueOf(currentFlower.getDateFromLong(currentFlower.getDate())));
+            if (currentFlower.getFlowerDate() != 0) {
+                holder.flowerDate.setText(String.valueOf(currentFlower.getDateFromLong(currentFlower.getFlowerDate())));
             } else {
-                holder.flower_date.setText("");
+                holder.flowerDate.setText("");
             }
         }
     }
@@ -73,23 +71,22 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
      * @return The flower at the given position
      */
     public Flower getFlowerAtPosition(int position) {
-
         return flowers.get(position);
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView flower_image;
-        TextView flower_name;
-        TextView flower_date;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView flowerImage;
+        TextView flowerName;
+        TextView flowerDate;
         CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.cardView);
-            flower_image = itemView.findViewById(R.id.rose_image);
-            flower_name = itemView.findViewById(R.id.rose_name);
-            flower_date = itemView.findViewById(R.id.rose_date);
+            flowerImage = itemView.findViewById(R.id.rose_image);
+            flowerName = itemView.findViewById(R.id.rose_name);
+            flowerDate = itemView.findViewById(R.id.rose_date);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,7 +98,6 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     }
 
     public void setOnItemListener(Listener listener) {
-
         FlowerAdapter.listener = listener;
     }
 

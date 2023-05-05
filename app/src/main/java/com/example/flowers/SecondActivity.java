@@ -1,6 +1,5 @@
 package com.example.flowers;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,10 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 
 /**
@@ -29,11 +26,9 @@ import java.util.Date;
  */
 public class SecondActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     public static final String EXTRA_REPLY = "com.example.android.flowers.REPLY";
-    private EditText flower_name_view;
-    private TextView date_view;
-    private Button save_button;
+    private EditText flowerNameView;
+    private TextView dateView;
 
-    private Button delete;
     private FlowerViewModel flowerViewModel;
 
     @Override
@@ -42,37 +37,35 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
         setContentView(R.layout.activity_second);
 
         flowerViewModel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(FlowerViewModel.class);
-        flower_name_view = findViewById(R.id.flower_name);
-        date_view = findViewById(R.id.date_id);
-        save_button = findViewById(R.id.save_button);
-        delete = findViewById(R.id.delete_button);
+        flowerNameView = findViewById(R.id.flower_name);
+        dateView = findViewById(R.id.date_id);
+        Button saveButton = findViewById(R.id.save_button);
+        Button deleteButton = findViewById(R.id.delete_button);
 
         int id = -1;
 
-        Flower flower_extra = (Flower) getIntent().getSerializableExtra(MainActivity.EXTRA_DATA);
+        Flower flowerExtraData = (Flower) getIntent().getSerializableExtra(MainActivity.EXTRA_DATA);
 
         //If we pass content,fill it in for the user to edit
-        if (flower_extra != null) {
-            String fl_name = flower_extra.getFlowerName();
-            long fl_date = flower_extra.getDate();
-            id = flower_extra.getId();
-            delete.setVisibility(View.VISIBLE);
+        if (flowerExtraData != null) {
+            String flowerName = flowerExtraData.getFlowerName();
+            long flowerDate = flowerExtraData.getFlowerDate();
+            id = flowerExtraData.getFlowerId();
+            deleteButton.setVisibility(View.VISIBLE);
 
-            if (!fl_name.isEmpty()) {
-                flower_name_view.setText(fl_name);
-                flower_name_view.setSelection(fl_name.length());
-                flower_name_view.requestFocus();
+            flowerNameView.setText(flowerName);
+            flowerNameView.setSelection(flowerName.length());
+            flowerNameView.requestFocus();
 
                 //If we don't have date let the date's textView empty
-                if (fl_date != 0)
-                    date_view.setText(flower_extra.getDateFromLong(fl_date));
-                date_view.requestFocus();
-            }
+            if (flowerDate != 0){
+                dateView.setText(flowerExtraData.getDateFromLong(flowerDate));}
+            dateView.requestFocus();
+
         }
 
         //When the user clicks the textView Date, we display a calendar for choosing date
-        date_view.setOnClickListener(new View.OnClickListener() {
-
+        dateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment datePicker = new DatePickerFragment();
@@ -81,44 +74,38 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
         });
 
         //When the user presses Delete Button, we get keep the id,name and data for deleting the appropriate flower
-        delete.setOnClickListener(new View.OnClickListener() {
-
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
-                String data_name = flower_extra.getFlowerName();
-                long data_date = flower_extra.getDate();
-                int data_id = flower_extra.getId();
-
-                flowerViewModel.delete(new Flower(data_id, data_name, data_date));
-                setResult(RESULT_CANCELED, replyIntent);
+                flowerViewModel.delete(flowerExtraData);
+                setResult(RESULT_FIRST_USER, replyIntent);
                 finish();
             }
         });
 
         //When the user presses Save Button check the condition of name ,date and send the  Flower in MainActivity
-        save_button.setOnClickListener(new View.OnClickListener() {
-
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
 
                 //if the name field is empty
-                if (TextUtils.isEmpty(flower_name_view.getText())) {
+                if (TextUtils.isEmpty(flowerNameView.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
                     finish();
                 }
 
-                String data_name = flower_name_view.getText().toString();
-                String data_date = date_view.getText().toString();
+                String dataName = flowerNameView.getText().toString();
+                String dataDate = dateView.getText().toString();
                 Flower flower = null;
 
                 //  If we have non empty flower_extra, it means that we update an existing flower
-                if (flower_extra == null) {
-                    flower = new Flower(data_name).setDateFromString(data_date);
+                if (flowerExtraData == null) {
+                    flower = new Flower(dataName).setDateFromString(dataDate);
                 } else {
-                    flower = flower_extra.setFlowerName(data_name)
-                            .setDateFromString(data_date);
+                    flower = flowerExtraData.setFlowerName(dataName)
+                                         .setDateFromString(dataDate);
                 }
 
                 replyIntent.putExtra(EXTRA_REPLY, flower);
@@ -130,16 +117,15 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        long currentDate = c.getTimeInMillis();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        long currentDate = calendar.getTimeInMillis();
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strDate = dateFormat.format(currentDate);
+        String stringDate = dateFormat.format(currentDate);
         TextView dateTextView = findViewById(R.id.date_id);
-        dateTextView.setText(String.valueOf(strDate));
+        dateTextView.setText(String.valueOf(stringDate));
     }
 }

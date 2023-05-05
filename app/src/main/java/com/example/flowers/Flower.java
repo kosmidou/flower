@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -22,49 +21,38 @@ import java.util.Date;
 @Entity(tableName = "flower")
 public class Flower implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private int flowerId;
     @NonNull
     @ColumnInfo(name = "flower")
     private String flowerName;
 
     @ColumnInfo(name = "date")
-    private long date;
-
-    @Ignore
-    public Flower(int id, @NonNull String flowerName, long date) {
-        this.id = id;
-        this.flowerName = flowerName;
-        this.date = date;
-    }
+    private long flowerDate;
 
     public Flower(@NonNull String flowerName) {
         this.flowerName = flowerName;
     }
 
+    @NonNull
     public String getFlowerName() {
-
         return this.flowerName;
     }
 
-    public int getId() {
-
-        return this.id;
+    public int getFlowerId() {
+        return this.flowerId;
     }
 
-    public long getDate() {
-
-        return this.date;
+    public long getFlowerDate() {
+        return this.flowerDate;
     }
 
-    public void setId(int id) {
-
-        this.id = id;
+    public void setFlowerId(int id) {
+        this.flowerId = id;
     }
 
     public String getDateFromLong(long currentDate) {
-        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String strDate = dateFormat.format(currentDate);
-        return strDate;
+        DateFormat dateFormat = dateFormatting();
+        return  dateFormat.format(currentDate);
     }
 
     public Flower setFlowerName(String flowerName) {
@@ -72,24 +60,28 @@ public class Flower implements Serializable {
         return this;
     }
 
-    public void setDate(long date) {
-        this.date = date;
+    public void setFlowerDate(long date) {
+        this.flowerDate = date;
     }
 
     public Flower setDateFromString(@NonNull String currentDate) {
         if (TextUtils.isEmpty(currentDate)) {
-            this.date = 0;
+            this.flowerDate = 0;
             return this;
         }
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat dateFormat = dateFormatting();
         try {
             Date parsedDate = dateFormat.parse(currentDate);
-            this.date = parsedDate != null ? parsedDate.getTime() : 0;
+            this.flowerDate = parsedDate != null ? parsedDate.getTime() : 0;
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
         return this;
+    }
+
+    public DateFormat dateFormatting(){
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 }

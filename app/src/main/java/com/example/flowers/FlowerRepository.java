@@ -14,11 +14,10 @@ import java.util.List;
  */
 public class FlowerRepository {
 
-    private FlowerDao flowerDao;
-    private LiveData<List<Flower>> allItems;
+    private final FlowerDao flowerDao;
+    private final LiveData<List<Flower>> allItems;
 
     FlowerRepository(Application application) {
-
         FlowerRoomDatabase fd = FlowerRoomDatabase.getDatabase(application);
         flowerDao = fd.flowerDao();
         allItems = flowerDao.getAllItems();
@@ -41,7 +40,7 @@ public class FlowerRepository {
     }
 
     private static class insertAsyncTask extends AsyncTask<Flower, Void, Void> {
-        private FlowerDao flowerDao;
+        private final FlowerDao flowerDao;
 
         insertAsyncTask(FlowerDao flowerDao) {
             this.flowerDao = flowerDao;
@@ -49,15 +48,13 @@ public class FlowerRepository {
 
         @Override
         protected Void doInBackground(final Flower... flowers) {
-
             flowerDao.insertFlower(flowers[0]);
             return null;
         }
     }
 
     private static class deleteAsyncTask extends AsyncTask<Flower, Void, Void> {
-
-        private FlowerDao flowerDao;
+        private final FlowerDao flowerDao;
 
         deleteAsyncTask(FlowerDao flowerDao) {
             this.flowerDao = flowerDao;
@@ -65,14 +62,13 @@ public class FlowerRepository {
 
         @Override
         protected Void doInBackground(final Flower... flowers) {
-
             flowerDao.delete(flowers[0]);
             return null;
         }
     }
 
     private static class updateAsyncTask extends AsyncTask<Flower, Void, Void> {
-        private FlowerDao flowerDao;
+        private final FlowerDao flowerDao;
 
         updateAsyncTask(FlowerDao flowerDao) {
             this.flowerDao = flowerDao;
@@ -80,7 +76,6 @@ public class FlowerRepository {
 
         @Override
         protected Void doInBackground(final Flower... flowers) {
-
             flowerDao.update(flowers[0]);
             return null;
         }

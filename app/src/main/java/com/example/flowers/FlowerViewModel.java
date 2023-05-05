@@ -13,11 +13,10 @@ import java.util.List;
  * UI and data layer of the app
  */
 public class FlowerViewModel extends AndroidViewModel {
-    private FlowerRepository flowerRepository;
-    private LiveData<List<Flower>> allItems;
+    private final FlowerRepository flowerRepository;
+    private final LiveData<List<Flower>> allItems;
 
     public FlowerViewModel(@NonNull Application application) {
-
         super(application);
         flowerRepository = new FlowerRepository(application);
         allItems = flowerRepository.getAllItems();

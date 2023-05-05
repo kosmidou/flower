@@ -8,4 +8,5 @@
     <string name="delete_all">"Delete "</string>
     <string name="no_update">Unable to update, the field \"Flower Name\" is empty</string>
     <string name="empty_data">Empty data , new flower didnt create</string>
+    <string name="delete_data">You deleted a flower successfully</string>
 </resources>

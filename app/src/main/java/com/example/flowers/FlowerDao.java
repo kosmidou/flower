@@ -35,7 +35,7 @@ public interface FlowerDao {
     @Update
     void update(Flower flower);
 
-    @Query("SELECT * from flower ORDER BY flower ASC")
+    @Query("SELECT * from flower ORDER BY flowerId")
     LiveData<List<Flower>> getAllItems();
 
 }
