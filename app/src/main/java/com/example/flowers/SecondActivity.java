@@ -43,7 +43,6 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
         Button deleteButton = findViewById(R.id.delete_button);
 
         int id = -1;
-
         Flower flowerExtraData = (Flower) getIntent().getSerializableExtra(MainActivity.EXTRA_DATA);
 
         //If we pass content,fill it in for the user to edit
@@ -123,7 +122,7 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         long currentDate = calendar.getTimeInMillis();
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat dateFormat =(Flower.DATE_FORMAT);
         String stringDate = dateFormat.format(currentDate);
         TextView dateTextView = findViewById(R.id.date_id);
         dateTextView.setText(String.valueOf(stringDate));

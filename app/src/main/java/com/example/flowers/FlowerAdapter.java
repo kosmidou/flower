@@ -1,16 +1,15 @@
 package com.example.flowers;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +21,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     private final LayoutInflater inflater;
     private List<Flower> flowers = new ArrayList<>();
     private static Listener listener;
+    private  FlowerAdapter.ViewHolder flowerViewHolder;
 
     FlowerAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -30,9 +30,13 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View itemView = inflater.inflate(R.layout.flower_item_list, parent, false);
-        return new ViewHolder(itemView);
+        flowerViewHolder= new ViewHolder(itemView);
+        return flowerViewHolder;
+
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull FlowerAdapter.ViewHolder holder, int position) {
@@ -71,6 +75,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
      * @return The flower at the given position
      */
     public Flower getFlowerAtPosition(int position) {
+
         return flowers.get(position);
     }
 
@@ -104,5 +109,10 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     public interface Listener {
         void itemClicked(View v, int position);
     }
+
+    public int getListSize(){
+        return flowers.size();
+    }
+
 
 }

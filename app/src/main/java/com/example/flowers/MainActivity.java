@@ -3,6 +3,7 @@ package com.example.flowers;
 import static com.example.flowers.R.string.delete_data;
 import static com.example.flowers.R.string.no_update;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int UPDATE_WORD_ACTIVITY_REQUEST_CODE = 2;
     public static final String EXTRA_DATA = "extra_data";
     private FlowerViewModel flowerViewModel;
+    private  FlowerAdapter adapter;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,30 +37,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        final FlowerAdapter adapter = new FlowerAdapter(this);
+        adapter = new FlowerAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         Button addFlower = findViewById(R.id.addFlowerButton);
+
 
         addFlower.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                 startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
+
             }
         });
 
         //Get the flowers from the database
         //associate them with the adapter
-        //flowerViewModel =ViewModelProviders.of(this).get(FlowerViewModel.class);
-        flowerViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(FlowerViewModel.class);
+        flowerViewModel =ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(FlowerViewModel.class);
 
-        flowerViewModel.getAllItems().observe(this, new Observer<List<Flower>>() {
-            @Override
-            public void onChanged(List<Flower> flowers) {
-               adapter.setFlowers(flowers);
-            }
-        });
+      flowerViewModel.getAllItems().observe(MainActivity.this, new Observer<List<Flower>>() {
+           @Override
+          public void onChanged(List<Flower> flowers) {
+             adapter.setFlowers(flowers);
+           }
+     });
 
         adapter.setOnItemListener(new FlowerAdapter.Listener() {
             @Override
@@ -65,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 launchUpdate(flower);
             }
         });
+
     }
 
 

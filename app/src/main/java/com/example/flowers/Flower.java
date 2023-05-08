@@ -1,13 +1,10 @@
 package com.example.flowers;
 
-import android.annotation.SuppressLint;
 import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,6 +17,8 @@ import java.util.Date;
  */
 @Entity(tableName = "flower")
 public class Flower implements Serializable {
+
+    public static final DateFormat DATE_FORMAT = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
     @PrimaryKey(autoGenerate = true)
     private int flowerId;
     @NonNull
@@ -51,7 +50,7 @@ public class Flower implements Serializable {
     }
 
     public String getDateFromLong(long currentDate) {
-        DateFormat dateFormat = dateFormatting();
+        DateFormat dateFormat = DATE_FORMAT;
         return  dateFormat.format(currentDate);
     }
 
@@ -70,18 +69,15 @@ public class Flower implements Serializable {
             return this;
         }
 
-        DateFormat dateFormat = dateFormatting();
+        DateFormat dateFormat = DATE_FORMAT;
         try {
             Date parsedDate = dateFormat.parse(currentDate);
             this.flowerDate = parsedDate != null ? parsedDate.getTime() : 0;
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return this;
     }
 
-    public DateFormat dateFormatting(){
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    }
+
 }

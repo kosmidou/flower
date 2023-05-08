@@ -48,7 +48,6 @@ public abstract class FlowerRoomDatabase extends RoomDatabase {
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private PopulateDbAsync(FlowerRoomDatabase fd) {
-
            fd.flowerDao();
         }
         @Override
