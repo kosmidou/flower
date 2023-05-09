@@ -21,7 +21,6 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     private final LayoutInflater inflater;
     private List<Flower> flowers = new ArrayList<>();
     private static Listener listener;
-    private  FlowerAdapter.ViewHolder flowerViewHolder;
 
     FlowerAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -32,7 +31,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView = inflater.inflate(R.layout.flower_item_list, parent, false);
-        flowerViewHolder= new ViewHolder(itemView);
+        ViewHolder flowerViewHolder = new ViewHolder(itemView);
         return flowerViewHolder;
 
     }

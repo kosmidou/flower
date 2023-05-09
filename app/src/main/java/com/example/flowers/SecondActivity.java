@@ -36,7 +36,7 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        flowerViewModel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(FlowerViewModel.class);
+        flowerViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(FlowerViewModel.class);
         flowerNameView = findViewById(R.id.flower_name);
         dateView = findViewById(R.id.date_id);
         Button saveButton = findViewById(R.id.save_button);
@@ -97,7 +97,7 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
 
                 String dataName = flowerNameView.getText().toString();
                 String dataDate = dateView.getText().toString();
-                Flower flower = null;
+                Flower flower ;
 
                 //  If we have non empty flower_extra, it means that we update an existing flower
                 if (flowerExtraData == null) {

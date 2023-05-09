@@ -50,8 +50,7 @@ public class Flower implements Serializable {
     }
 
     public String getDateFromLong(long currentDate) {
-        DateFormat dateFormat = DATE_FORMAT;
-        return  dateFormat.format(currentDate);
+        return  DATE_FORMAT.format(currentDate);
     }
 
     public Flower setFlowerName(String flowerName) {

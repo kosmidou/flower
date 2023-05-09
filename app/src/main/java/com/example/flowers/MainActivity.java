@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_DATA = "extra_data";
     private FlowerViewModel flowerViewModel;
     private  FlowerAdapter adapter;
-    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Get the flowers from the database
         //associate them with the adapter
-        flowerViewModel =ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(FlowerViewModel.class);
+        flowerViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(FlowerViewModel.class);
 
       flowerViewModel.getAllItems().observe(MainActivity.this, new Observer<List<Flower>>() {
            @Override
