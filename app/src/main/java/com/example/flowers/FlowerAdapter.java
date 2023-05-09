@@ -104,7 +104,6 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     public void setOnItemListener(Listener listener) {
         FlowerAdapter.listener = listener;
     }
-
     public interface Listener {
         void itemClicked(View v, int position);
     }

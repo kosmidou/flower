@@ -51,4 +51,12 @@
         android:layout_marginRight="50dp"
         android:drawableLeft="@drawable/baseline_delete_24"
         android:visibility="invisible"/>
+
+    <ImageButton
+        android:id="@+id/add_picture_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/camera"
+        android:layout_margin="100dp"
+        android:background="@color/purple_200"/>
 </LinearLayout>

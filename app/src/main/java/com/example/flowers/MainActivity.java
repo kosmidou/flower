@@ -3,6 +3,7 @@ package com.example.flowers;
 import static com.example.flowers.R.string.delete_data;
 import static com.example.flowers.R.string.no_update;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -47,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                 startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
-
             }
         });
 
@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 launchUpdate(flower);
             }
         });
-
     }
 
 
