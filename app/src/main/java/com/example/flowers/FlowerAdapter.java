@@ -1,6 +1,7 @@
 package com.example.flowers;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,12 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
                 holder.flowerDate.setText(String.valueOf(currentFlower.getDateFromLong(currentFlower.getFlowerDate())));
             } else {
                 holder.flowerDate.setText("");
+            }
+
+            if( currentFlower.getFlowerimage() != null){
+                holder.flowerImage.setImageBitmap(currentFlower.getFlowerimage());
+            }else{
+                holder.flowerImage.setImageBitmap(Bitmap.createBitmap(100,100 ,Bitmap.Config.ARGB_4444));
             }
         }
     }

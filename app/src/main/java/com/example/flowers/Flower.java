@@ -1,10 +1,14 @@
 package com.example.flowers;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -28,6 +32,9 @@ public class Flower implements Serializable {
     @ColumnInfo(name = "date")
     private long flowerDate;
 
+    @ColumnInfo(name="image")
+    private byte[] flowerImage;
+
     public Flower(@NonNull String flowerName) {
         this.flowerName = flowerName;
     }
@@ -43,6 +50,21 @@ public class Flower implements Serializable {
 
     public long getFlowerDate() {
         return this.flowerDate;
+    }
+
+    public Bitmap getFlowerimage(){
+
+        if(this.flowerImage == null){
+            setFlowerimage(Bitmap.createBitmap(100,100 ,Bitmap.Config.ARGB_4444));
+        }
+        return getImage(this.flowerImage);
+    }
+
+    public byte[] getFlowerImage(){ return this.flowerImage;}
+
+    // convert from byte array to bitmap
+    public static Bitmap getImage(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 
     public void setFlowerId(int id) {
@@ -77,6 +99,23 @@ public class Flower implements Serializable {
         }
         return this;
     }
+
+    public Flower setFlowerimage(Bitmap image){
+        this.flowerImage = getBytes(image);
+        return this;
+    }
+
+    public void setFlowerImage(byte[] flowerImage){
+        this.flowerImage=flowerImage;
+    }
+    // convert from bitmap to byte array
+    public static byte[] getBytes(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+        return stream.toByteArray();
+    }
+
+
 
 
 }

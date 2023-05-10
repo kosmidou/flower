@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,11 +38,15 @@ import java.util.Calendar;
 public class SecondActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     public static final String EXTRA_REPLY = "com.example.android.flowers.REPLY";
     public static final int REQUEST_CAMERA_PERMISSION=1;
-    public static final int REQUEST_CAMERA_CAPTURE=2;
+    public static final int REQUEST_CAMERA_CAPTURE_ACCESSED=2;
+   // public static final int REQUEST_CAMERA_CAPTURE_FAILED=3;
     private EditText flowerNameView;
     private TextView dateView;
 
+    //private ImageView imageView;
     private FlowerViewModel flowerViewModel;
+
+    private  Bitmap capturedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,8 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
         dateView = findViewById(R.id.date_id);
         Button saveButton = findViewById(R.id.save_button);
         Button deleteButton = findViewById(R.id.delete_button);
-        ImageButton cameraButton=findViewById(R.id.add_picture_button);
+        ImageButton cameraButton = findViewById(R.id.add_picture_button);
+        //imageView = findViewById(R.id.picture);
         int id = -1;
         Flower flowerExtraData = (Flower) getIntent().getSerializableExtra(MainActivity.EXTRA_DATA);
 
@@ -126,6 +132,9 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
                                          .setDateFromString(dataDate);
                 }
 
+                if(capturedImage != null){
+                    flower = flower.setFlowerimage(capturedImage);
+                }
                 replyIntent.putExtra(EXTRA_REPLY, flower);
                 setResult(RESULT_OK, replyIntent);
                 finish();
@@ -144,10 +153,9 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         if(requestCode==REQUEST_CAMERA_PERMISSION){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                 openCamera();
+                openCamera();
             }else{
                 Toast.makeText(this,"Camera Permission is required to use Camera",Toast.LENGTH_LONG).show();
             }
@@ -156,15 +164,17 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
 
     private void openCamera() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent,REQUEST_CAMERA_CAPTURE);
+        startActivityForResult(cameraIntent,REQUEST_CAMERA_CAPTURE_ACCESSED);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CAMERA_CAPTURE) {
-            Bitmap capturedImage = (Bitmap) data.getExtras().get("image");
+        if (requestCode == REQUEST_CAMERA_CAPTURE_ACCESSED && resultCode == RESULT_OK ) {
+             capturedImage = (Bitmap) data.getExtras().get("data");
+            //imageView.setImageBitmap(capturedImage);
+            // Toast.makeText(getApplication(),"PICTURE DONE",Toast.LENGTH_SHORT).show();
         }
     }
 

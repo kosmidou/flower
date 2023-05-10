@@ -59,4 +59,10 @@
         app:srcCompat="@drawable/camera"
         android:layout_margin="100dp"
         android:background="@color/purple_200"/>
+
+<!--    <ImageView-->
+<!--        android:id="@+id/picture"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="90dp" />-->
+
 </LinearLayout>
