@@ -2,15 +2,18 @@ package com.example.flowers;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +35,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemView = inflater.inflate(R.layout.flower_item_list, parent, false);
-        ViewHolder flowerViewHolder = new ViewHolder(itemView);
-        return flowerViewHolder;
+        return new ViewHolder(itemView);
 
     }
 
@@ -51,10 +53,13 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
                 holder.flowerDate.setText("");
             }
 
-            if( currentFlower.getFlowerimage() != null){
-                holder.flowerImage.setImageBitmap(currentFlower.getFlowerimage());
-            }else{
-                holder.flowerImage.setImageBitmap(Bitmap.createBitmap(100,100 ,Bitmap.Config.ARGB_4444));
+            //Decoding filepath and create bitmap to set it in ImageView
+            if (currentFlower.getFlowerImage() != null) {
+                File file = new File(currentFlower.getFlowerImage());
+                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                holder.flowerImage.setImageBitmap(bitmap);
+            } else {
+                holder.flowerImage.setImageBitmap(Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_4444));
             }
         }
     }
@@ -81,7 +86,6 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
      * @return The flower at the given position
      */
     public Flower getFlowerAtPosition(int position) {
-
         return flowers.get(position);
     }
 
@@ -111,11 +115,12 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     public void setOnItemListener(Listener listener) {
         FlowerAdapter.listener = listener;
     }
+
     public interface Listener {
         void itemClicked(View v, int position);
     }
 
-    public int getListSize(){
+    public int getListSize() {
         return flowers.size();
     }
 

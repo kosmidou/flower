@@ -1,14 +1,17 @@
 package com.example.flowers;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -17,12 +20,12 @@ import java.util.Date;
 
 /**
  * Entity class that represents a flower in the
- * database matched with name(mandatory) and date
+ * database matched with name(mandatory) , date and image
  */
 @Entity(tableName = "flower")
 public class Flower implements Serializable {
 
-    public static final DateFormat DATE_FORMAT = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
+    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @PrimaryKey(autoGenerate = true)
     private int flowerId;
     @NonNull
@@ -32,8 +35,8 @@ public class Flower implements Serializable {
     @ColumnInfo(name = "date")
     private long flowerDate;
 
-    @ColumnInfo(name="image")
-    private byte[] flowerImage;
+    @ColumnInfo(name = "image path")
+    private String flowerImage;
 
     public Flower(@NonNull String flowerName) {
         this.flowerName = flowerName;
@@ -52,19 +55,11 @@ public class Flower implements Serializable {
         return this.flowerDate;
     }
 
-    public Bitmap getFlowerimage(){
-
-        if(this.flowerImage == null){
-            setFlowerimage(Bitmap.createBitmap(100,100 ,Bitmap.Config.ARGB_4444));
+    public String getFlowerImage() {
+        if (this.flowerImage != null) {
+            return this.flowerImage;
         }
-        return getImage(this.flowerImage);
-    }
-
-    public byte[] getFlowerImage(){ return this.flowerImage;}
-
-    // convert from byte array to bitmap
-    public static Bitmap getImage(byte[] image) {
-        return BitmapFactory.decodeByteArray(image, 0, image.length);
+        return null;
     }
 
     public void setFlowerId(int id) {
@@ -72,7 +67,7 @@ public class Flower implements Serializable {
     }
 
     public String getDateFromLong(long currentDate) {
-        return  DATE_FORMAT.format(currentDate);
+        return DATE_FORMAT.format(currentDate);
     }
 
     public Flower setFlowerName(String flowerName) {
@@ -100,22 +95,31 @@ public class Flower implements Serializable {
         return this;
     }
 
-    public Flower setFlowerimage(Bitmap image){
-        this.flowerImage = getBytes(image);
-        return this;
+    public void setFlowerImagePath(Bitmap capturedImage, Context context, int generatedNumber) {
+        this.flowerImage = writeImageInStorage(capturedImage, context, generatedNumber);
     }
 
-    public void setFlowerImage(byte[] flowerImage){
-        this.flowerImage=flowerImage;
-    }
-    // convert from bitmap to byte array
-    public static byte[] getBytes(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-        return stream.toByteArray();
+    public void setFlowerImage(String flowerImage) {
+        this.flowerImage = flowerImage;
     }
 
-
-
+    public String writeImageInStorage(Bitmap capturedImage, Context context, int generatedNumber) {
+        ContextWrapper cw = new ContextWrapper(context);
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        File file = new File(directory, generatedNumber + ".jpg");
+        if (!file.exists()) {
+            // FileOutputStream is meant for writing streams of raw bytes such as image data in this case
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(file);
+                capturedImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file.toString();
+    }
 
 }

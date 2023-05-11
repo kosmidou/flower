@@ -6,18 +6,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-    
+
+    <Button
+        android:id="@+id/addFlowerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/add_flower" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
-        tools:listitem="@layout/flower_item_list"/>
-    <Button
-        android:id="@+id/addFlowerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_flower"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="20dp"/>
+        tools:listitem="@layout/flower_item_list" />
+
 </LinearLayout>

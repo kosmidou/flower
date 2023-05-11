@@ -14,7 +14,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
  * After the app creates the database ,
  * all interactions happen through FlowerViewModel
  */
-@Database(entities = {Flower.class}, version = 4, exportSchema = false)
+@Database(entities = {Flower.class}, version = 7, exportSchema = false)
 public abstract class FlowerRoomDatabase extends RoomDatabase {
     public abstract FlowerDao flowerDao();
     private static FlowerRoomDatabase INSTANCE;
