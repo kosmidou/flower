@@ -3,6 +3,7 @@ package com.example.flowers;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     private final LayoutInflater inflater;
     private List<Flower> flowers = new ArrayList<>();
     private static Listener listener;
+    public static final Bitmap DEFAULT_BITMAP=Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_4444);
 
     FlowerAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -33,10 +35,8 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View itemView = inflater.inflate(R.layout.flower_item_list, parent, false);
         return new ViewHolder(itemView);
-
     }
 
 
@@ -53,13 +53,12 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
                 holder.flowerDate.setText("");
             }
 
-            //Decoding filepath and create bitmap to set it in ImageView
+            //Decoding filepath and create bitmap to set it in ImageView.We set a default if there is no image
             if (currentFlower.getFlowerImage() != null) {
                 File file = new File(currentFlower.getFlowerImage());
-                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                holder.flowerImage.setImageBitmap(bitmap);
+                holder.flowerImage.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
             } else {
-                holder.flowerImage.setImageBitmap(Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_4444));
+                holder.flowerImage.setImageBitmap(DEFAULT_BITMAP);
             }
         }
     }
@@ -123,6 +122,5 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     public int getListSize() {
         return flowers.size();
     }
-
 
 }

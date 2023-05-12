@@ -56,10 +56,7 @@ public class Flower implements Serializable {
     }
 
     public String getFlowerImage() {
-        if (this.flowerImage != null) {
-            return this.flowerImage;
-        }
-        return null;
+        return this.flowerImage;
     }
 
     public void setFlowerId(int id) {

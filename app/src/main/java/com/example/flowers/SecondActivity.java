@@ -173,12 +173,10 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == REQUEST_CAMERA_CAPTURE_ACCESSED && resultCode == RESULT_OK) {
             capturedImage = (Bitmap) data.getExtras().get("data");
         }
     }
-
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
