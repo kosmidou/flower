@@ -24,6 +24,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.File;
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -52,7 +54,7 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
         dateView = findViewById(R.id.date_id);
         Button saveButton = findViewById(R.id.save_button);
         Button deleteButton = findViewById(R.id.delete_button);
-        ImageButton cameraButton = findViewById(R.id.add_picture_button);
+        FloatingActionButton cameraButton = findViewById(R.id.add_picture_button);
 
         int id = -1;
         Flower flowerExtraData = (Flower) getIntent().getSerializableExtra(MainActivity.EXTRA_DATA);

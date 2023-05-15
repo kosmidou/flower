@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp"
-        app:cardBackgroundColor="#FFFFFF"
+        app:cardBackgroundColor="#eef2f3"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp">
 
@@ -37,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:textColor="#000"
+                    android:textColor="#466658"
                     android:textSize="25dp"
                     android:textStyle="bold" />
 

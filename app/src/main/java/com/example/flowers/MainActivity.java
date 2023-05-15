@@ -16,6 +16,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 
 
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new FlowerAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Button addFlower = findViewById(R.id.addFlowerButton);
+        FloatingActionButton addFlower = findViewById(R.id.addFlowerButton);
 
 
         addFlower.setOnClickListener(new View.OnClickListener() {
