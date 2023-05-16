@@ -50,7 +50,7 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
                 holder.flowerDate.setText(String.valueOf(currentFlower.getDateFromLong(currentFlower.getFlowerDate())));
                 holder.flowerDate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_water_drop_24, 0, 0, 0);
             } else {
-                holder.flowerDate.setText("Last time of watering?");
+                holder.flowerDate.setText("Last day of watering?");
                 holder.flowerDate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_energy_savings_leaf_24, 0, 0, 0);
             }
 
