@@ -2,6 +2,7 @@ package com.example.flowers;
 
 import android.content.Context;
 import android.os.AsyncTask;
+
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
@@ -17,6 +18,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 @Database(entities = {Flower.class}, version = 7, exportSchema = false)
 public abstract class FlowerRoomDatabase extends RoomDatabase {
     public abstract FlowerDao flowerDao();
+
     private static FlowerRoomDatabase INSTANCE;
 
     //Database building
@@ -48,8 +50,9 @@ public abstract class FlowerRoomDatabase extends RoomDatabase {
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private PopulateDbAsync(FlowerRoomDatabase fd) {
-           fd.flowerDao();
+            fd.flowerDao();
         }
+
         @Override
         protected Void doInBackground(final Void... voids) {
             return null;

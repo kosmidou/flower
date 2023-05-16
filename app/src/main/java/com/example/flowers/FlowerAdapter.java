@@ -26,7 +26,6 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
     private final LayoutInflater inflater;
     private List<Flower> flowers = new ArrayList<>();
     private static Listener listener;
-    public static final Bitmap DEFAULT_BITMAP=Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_4444);
 
     FlowerAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -49,16 +48,16 @@ public class FlowerAdapter extends RecyclerView.Adapter<FlowerAdapter.ViewHolder
             //if data field is completed we set the data.If it is not completed we set an empty content
             if (currentFlower.getFlowerDate() != 0) {
                 holder.flowerDate.setText(String.valueOf(currentFlower.getDateFromLong(currentFlower.getFlowerDate())));
+                holder.flowerDate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_water_drop_24, 0, 0, 0);
             } else {
-                holder.flowerDate.setText("");
+                holder.flowerDate.setText("Last time of watering?");
+                holder.flowerDate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_energy_savings_leaf_24, 0, 0, 0);
             }
 
             //Decoding filepath and create bitmap to set it in ImageView.We set a default if there is no image
             if (currentFlower.getFlowerImage() != null) {
                 File file = new File(currentFlower.getFlowerImage());
                 holder.flowerImage.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
-            } else {
-                holder.flowerImage.setImageBitmap(DEFAULT_BITMAP);
             }
         }
     }

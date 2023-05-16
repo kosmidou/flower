@@ -3,18 +3,14 @@ package com.example.flowers;
 import static com.example.flowers.R.string.delete_data;
 import static com.example.flowers.R.string.no_update;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,29 +23,30 @@ import java.util.List;
  * the layout displays a button,that allows users to move in SecondActivity and add a new Flower
  * Whenever a new flower is added,deleted or updated the RecyclerView manages the list of flowers
  */
-public class MainActivity extends AppCompatActivity {
+public class FlowerGallery extends AppCompatActivity {
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_WORD_ACTIVITY_REQUEST_CODE = 2;
     public static final String EXTRA_DATA = "extra_data";
     private FlowerViewModel flowerViewModel;
     private  FlowerAdapter adapter;
+    private TextView welcomeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_gallery);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         adapter = new FlowerAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         FloatingActionButton addFlower = findViewById(R.id.addFlowerButton);
-
+        welcomeText = findViewById(R.id.welcomeText);
 
         addFlower.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                Intent intent = new Intent(FlowerGallery.this, FlowerInfo.class);
                 startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
             }
         });
@@ -58,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         //associate them with the adapter
         flowerViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(FlowerViewModel.class);
 
-      flowerViewModel.getAllItems().observe(MainActivity.this, new Observer<List<Flower>>() {
+      flowerViewModel.getAllItems().observe(FlowerGallery.this, new Observer<List<Flower>>() {
            @Override
           public void onChanged(List<Flower> flowers) {
              adapter.setFlowers(flowers);
@@ -72,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
                 launchUpdate(flower);
             }
         });
+
+        if(flowerViewModel.getAllItems().getValue() == null){
+            welcomeText.setVisibility(View.VISIBLE);
+        }else {
+            welcomeText.setVisibility(View.INVISIBLE);
+        }
     }
 
 
@@ -79,10 +82,10 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Flower flower = (Flower) data.getSerializableExtra(SecondActivity.EXTRA_REPLY);
+            Flower flower = (Flower) data.getSerializableExtra(FlowerInfo.EXTRA_REPLY);
             flowerViewModel.insert(flower);
         } else if (requestCode == UPDATE_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Flower flower = (Flower) data.getSerializableExtra(SecondActivity.EXTRA_REPLY);
+            Flower flower = (Flower) data.getSerializableExtra(FlowerInfo.EXTRA_REPLY);
             flowerViewModel.update(flower);
         } else if (resultCode == RESULT_CANCELED) {
             Toast.makeText(this, no_update, Toast.LENGTH_LONG).show();
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void launchUpdate(Flower flower) {
-        Intent intent = new Intent(this, SecondActivity.class);
+        Intent intent = new Intent(this, FlowerInfo.class);
         intent.putExtra(EXTRA_DATA, flower);
         startActivityForResult(intent, UPDATE_WORD_ACTIVITY_REQUEST_CODE);
     }

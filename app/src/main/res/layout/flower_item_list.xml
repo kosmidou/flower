@@ -23,7 +23,8 @@
                 android:id="@+id/rose_image"
                 android:layout_width="150dp"
                 android:layout_height="120dp"
-                android:layout_margin="10dp" />
+                android:layout_margin="10dp"
+                android:src="@drawable/no_image" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,6 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:drawableLeft="@drawable/baseline_local_florist_24"
                     android:textColor="#466658"
                     android:textSize="25dp"
                     android:textStyle="bold" />
@@ -45,7 +47,8 @@
                     android:id="@+id/rose_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp" />
+                    android:layout_margin="10dp"
+                    android:drawableLeft="@drawable/baseline_water_drop_24" />
 
             </LinearLayout>
 

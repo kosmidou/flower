@@ -13,6 +13,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -20,7 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ import java.util.Calendar;
  * SecondActivity displays a screen where the user can add a new flower
  * or update/delete the existing ones
  */
-public class SecondActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class FlowerInfo extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     public static final String EXTRA_REPLY = "com.example.android.flowers.REPLY";
     public static final int REQUEST_CAMERA_PERMISSION = 1;
     public static final int REQUEST_CAMERA_CAPTURE_ACCESSED = 2;
@@ -43,11 +44,12 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
     private TextView dateView;
     private FlowerViewModel flowerViewModel;
     private Bitmap capturedImage;
+    private ImageView previewImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_info);
 
         flowerViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(FlowerViewModel.class);
         flowerNameView = findViewById(R.id.flower_name);
@@ -55,9 +57,11 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
         Button saveButton = findViewById(R.id.save_button);
         Button deleteButton = findViewById(R.id.delete_button);
         FloatingActionButton cameraButton = findViewById(R.id.add_picture_button);
+        previewImage = findViewById(R.id.imagePreview);
+
 
         int id = -1;
-        Flower flowerExtraData = (Flower) getIntent().getSerializableExtra(MainActivity.EXTRA_DATA);
+        Flower flowerExtraData = (Flower) getIntent().getSerializableExtra(FlowerGallery.EXTRA_DATA);
 
         //If we pass content,fill it in for the user to edit
         if (flowerExtraData != null) {
@@ -65,6 +69,7 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
             long flowerDate = flowerExtraData.getFlowerDate();
             id = flowerExtraData.getFlowerId();
             deleteButton.setVisibility(View.VISIBLE);
+
 
             flowerNameView.setText(flowerName);
             flowerNameView.setSelection(flowerName.length());
@@ -75,6 +80,12 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
                 dateView.setText(flowerExtraData.getDateFromLong(flowerDate));
             }
             dateView.requestFocus();
+
+            if (flowerExtraData.getFlowerImage() != null) {
+                File file = new File(flowerExtraData.getFlowerImage());
+                previewImage.setVisibility(View.VISIBLE);
+                previewImage.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+            }
 
         }
         cameraButton.setOnClickListener(new View.OnClickListener() {
@@ -177,6 +188,8 @@ public class SecondActivity extends AppCompatActivity implements DatePickerDialo
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CAMERA_CAPTURE_ACCESSED && resultCode == RESULT_OK) {
             capturedImage = (Bitmap) data.getExtras().get("data");
+            previewImage.setVisibility(View.VISIBLE);
+            previewImage.setImageBitmap(capturedImage);
         }
     }
 
